@@ -75,7 +75,7 @@ This installs the dependencies as "dev-dependencies". This means that these tool
   git commit -m "➕ Testcafe and http-server"
 ```
 
-### Build the Sandbox ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/2-build-a-sandbox)]
+### Build the Sandbox ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/2-build-a-sandbox))
 
 Because we're testing a Leaflet, a Javascript library, as opposed to a client application, this means that we need to construct a sandbox for the purposes of testing. To start the sandbox, we're going to want to build a new directory, add some HTML and JS that uses the library, then add a NPM command which serves the sandbox:
 
@@ -83,9 +83,7 @@ Because we're testing a Leaflet, a Javascript library, as opposed to a client ap
   mkdir sandbox && touch ./sandbox/index.html ./sandbox/index.js
 ```
 
-And from inside your text editor, add the HTML and JS that makes up the sandbox, which we will gloss over as this is a testing tutorial. You can find it in the following gist:
-
-[Link](https://gist.github.com/brianbancroft/a16b5addd61971661cff2fb9d31e00cf)
+And from inside your text editor, add the HTML and JS that makes up the sandbox, which we will gloss over as this is a testing tutorial. You can find it in the following gist: [Link](https://gist.github.com/brianbancroft/a16b5addd61971661cff2fb9d31e00cf)
 
 
 Finally, modify the package.json file to run the sandbox with http-server. Add the following line into the "scripts" object:
