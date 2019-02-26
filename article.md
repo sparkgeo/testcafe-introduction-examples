@@ -31,3 +31,27 @@ In this tutorial, we're going to build fictional E2E tests for [Leaflet](https:/
 4. NodeJS, at least at version 8.15 (lts/carbon). 
 
 This list makes up a common toolsuite for developers. If you're building applications in React, Ember, or Vue, there's a good chance you already have all of these things. 
+
+### Start the project
+
+To start things, you're going to want to open your preferred terminal, and start a new directory:
+
+```sh
+  mkdir e2e-sample && cd e2e-sample
+  git init
+  touch README.md && echo "# End to End Testing with Testcafe" > README.md
+  npm init
+```
+
+This will then start up Node's CLI process for building a new application. Run through all of the questions, and once finished, add a .gitignore file to ensure we don't commit the wrong things with the following:
+
+```sh
+  wget https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore
+  mv Node.gitignore .gitignore
+```
+
+This is a good time to commit. 
+
+```sh
+  git add . & git commit -m "🎉 Basic repo" 
+```
