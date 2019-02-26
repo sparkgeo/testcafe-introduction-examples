@@ -314,7 +314,7 @@ At this point, we have a testing toolchain, and we have a sandbox environemnt to
 Now, we're going to modify our lone "test" script in our `package.json` file to run all files in the test directory:
 
 ```json
-  "test": "testcafe chrome ./tests/** --app \"http-server . -p 3001 -s\"",
+  "test": "testcafe chrome ./tests/** --app \"http-server ./sandbox -p 3001 -s\"",
 ```
 
 This gets us the test command. In lieu of `chrome`, Testcafe can also test against other browsers. Browsers such as "chrome:headless", "firefox", "firefox:headless", "safari", "ie", "edge" will all work so long as the browser is installed on your computer. Finally, we're going to write the tests. In the new JS file, we first want to declare the `fixture`, or the thing we wish to test against. Add the following to your test file:
@@ -343,3 +343,121 @@ This proves that we have a functional E2E environemnt, and we can go forth and b
 _Now we can add more tests!_
 
 ### Test DOM Elements ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/4-test-marker-properties))
+
+Now that we have a testing environment, we can start to *test all the things!* Here, we're going to test whether a marker appears when we press the marker appearance button. 
+
+The first step is to have Testcafe press a button. In the sandbox, I've given all the buttons on the right hand side unique ID's for this very purpose! First, to try yourself, we're going to need to import the `Selector` object from Testcafe. Write the following at the top of the JS file:
+
+```js
+  import { Selector } from 'testcafe';
+```
+
+Now add the following code to the bottom: 
+
+```js
+const addMarker = Selector('#addMarker');
+
+test('The marker is visible', async t => {
+  await t
+  .click(addMarker)
+  .wait(500)
+})
+```
+
+Now try running npm run test. If successful, you should see the following for half a second:
+
+![test-sandbox-leaflet](https://user-images.githubusercontent.com/6225122/53446884-f3aae980-39e1-11e9-908a-527ecca9288d.png)
+
+Notice that you can see a mouse cursor clicking on the DOM element `#addMarker`. We now have made an action, but we need to go further and ensure that the marker populates, and that it comes from the correct source. To verify whether it populates, we can write the following:
+
+```js
+test('The marker is visible', async t => {
+  await t
+  .click(addMarker)
+  .expect(Selector('img.leaflet-marker.icon'))
+  .ok('The marker must exist')
+
+})
+```
+
+This is our first _expectation_. We're expecting the selector to exist, and not return `null`. If it isn't ok, then we will indicate to the tester that this fails. Now we want to add another test that determines whether the marker populates from the correct source:
+
+```js
+test('The marker image pulls from the correct source', async t => {
+  await t
+    .click(addMarker)
+    .expect(Selector('.leaflet-marker-icon')
+    .withAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/images/marker-icon.png'))
+    .ok('The marker must come from the proper source')
+})
+```
+
+Run this test. Once you have 3/3 working tests, this would be an _excellent_ time to commit before we move to the final section: _Network Requests_.
+
+```sh
+  git add .
+  git commit -m "✅ Test marker properties"
+```
+
+
+### Testing Network Requests ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/5-test-network-requests))
+
+Because this introduction also seeks to test the Leaflet JS library, it would be remiss if we didn't test for outgoing network requests on certain events. We want to know if leaflet loads the desired tiles on load, and we want to know whether it loads a different set of tiles when we load a second layer. Let's start by creating a new test file, and adding some code:
+
+```sh
+  touch ./tests/2-tile-loading.js
+```
+
+For this part, we want to import the request logger object from Testcafe, with a fixture and a selector. Start your file with the following:
+
+```js
+import { RequestLogger, Selector } from 'testcafe';
+
+
+fixture`Test network requests for leaflet`
+  .page`http://localhost:3001`;
+  
+  const addCycleLayer = Selector('#addCycleLayer');
+
+```
+
+We have the start, and we now have a fixture. Now we're going to build two request logger objects:
+
+```js
+const osmLogger = RequestLogger(/\.tile\.openstreetmap\.org/, {
+  logRequestHeaders: true,
+});
+
+
+const cycleMapLogger = RequestLogger(/tile\.opencyclemap\.org/, {
+  logRequestHeaders: true,
+});
+```
+
+These are objects which capture outgoing requests, and use regular expressions (regex) to compare strings to patterns. Finally, we use the first logger to build a test:
+
+
+```js
+test.requestHooks(osmLogger)('Test outgoing osm requests on map load...', async t => {
+  await t
+    .wait(200)
+    .expect(osmLogger.count(() => true))
+    .gt(5, 'Must request more than 5 tiles from OSM')
+})
+```
+
+Because we're monitoring network requests as opposed to DOM elements, the syntax changes. We're using the `requestHooks` higher-order function, as opposed to the vanilla test function for the testing, and we're injecting a logger which monitors network requests that follow a specific pattern. In this test, we want to ensure that at least 5 tiles are being pulled from the correct serve. 
+
+Let's now test what happens when we load tiles from a different source. Add the following to the end of the file:
+
+```js
+test.requestHooks(cycleMapLogger)('Test outgoing opencycle requests on layer load', async t => {
+  await t
+  .click(addCycleLayer)
+  .wait(200)
+  .expect(cycleMapLogger.count(() => true))
+  .gt(5, 'Must request more than 5 tiles from OpenCycleMap')
+})
+```
+
+With this, if you're able to get 5/5 tests working, then you've succeeded in building an End-to-End testing environment for a client library using a custom sandbox. This is one of the tools which we use to ensure that we're tracking your web map use, and that we don't degrade existing features accidently when we improve and iterate. Congratulations!
