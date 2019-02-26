@@ -302,3 +302,44 @@ Now is a good time to commit.
 ```sh
   git add . && git commit -m "✨  Functional sandbox in leaflet"
 ```
+
+### Create Your First Test ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/3-build-first-test))
+
+At this point, we have a testing toolchain, and we have a sandbox environemnt to run those tests. The next step here is to build the tests! The first test ensures that we have, in fact, a working E2E environemnt. We're going to add the file, we're going to add a script, and then we're going to write the test!
+
+```sh
+  mkdir tests && touch ./tests/1-map-render.js
+```
+
+Now, we're going to modify our lone "test" script in our `package.json` file to run all files in the test directory:
+
+```json
+  "test": "testcafe chrome ./tests/** --app \"http-server . -p 3001 -s\"",
+```
+
+This gets us the test command. In lieu of `chrome`, Testcafe can also test against other browsers. Browsers such as "chrome:headless", "firefox", "firefox:headless", "safari", "ie", "edge" will all work so long as the browser is installed on your computer. Finally, we're going to write the tests. In the new JS file, we first want to declare the `fixture`, or the thing we wish to test against. Add the following to your test file:
+
+```js
+  fixture `Leaflet Map - Testing Render`
+    .page `http://localhost:3001`;
+```
+
+This indicates the name of the fixture, and where the mapping library can load it from. With this, we can add the test:
+
+```js
+  test('The testing environment works', async t => {});
+```
+
+This is a boilerplate test. Using this, we can run the command `npm run test` in the terminal. If successful, we should see the following:
+
+![test-1](https://user-images.githubusercontent.com/6225122/53446427-f2c58800-39e0-11e9-8cd2-14bf1a49bd6e.png)
+
+This proves that we have a functional E2E environemnt, and we can go forth and build real tests! At this point, it is a good time to commit:
+
+```sh
+  git add . && git commit -m "✅  My first test"
+```
+
+_Now we can add more tests!_
+
+### Test DOM Elements ([branch](https://github.com/sparkgeo/testcafe-introduction-examples/tree/4-test-marker-properties))
