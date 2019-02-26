@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- LEAFLET STYLES -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.css"
+    />
+    <style>
+    header,
+    h2 {
+      color: #444;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+    }
+
+    header {
+      margin: 2vh 10vw;
+      width: 80vw;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      margin: 5vh 5vw;
+    }
+
+    #map {
+      border: 3px solid #888;
+      margin-left: 5vw;
+      width: 30vw;
+      height: 80vh;
+    }
+
+    .button-group-container {
+      width: 30vw;
+      margin-left: 5vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .button-group-container button {
+      height: 29px;
+      width: 225px;
+      text-align: left;
+      text-transform: uppercase;
+      border-radius: 3px;
+      border: 2px solid #888;
+      color: #222;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .button-group-container button:before {
+      content: "· ";
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 5px;
+    }
+
+    .button-status,
+    .button-not-engaged,
+    .button-engaged {
+      height: 25px;
+      width: 25px;
+      line-height: 25px;
+      text-align: center;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+    .button-not-engaged {
+      background-color: red;
+      border: 2px solid #888;
+      border-radius: 3px;
+    }
+    .button-not-engaged:before {
+      content: "𝗫";
+    }
+    .button-engaged {
+      background-color: green;
+      border: 2px solid #888;
+      border-radius: 3px;
+    }
+    .button-engaged:before {
+      content: "✔";
+    }
+
+    .infobox-label,
+    .infobox-value {
+      border: 2px solid #888;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+
+      vertical-align: middle;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      user-select: none;
+      cursor: not-allowed;
+    }
+
+    .infobox-label {
+      height: 29px;
+      width: 165px;
+      margin-right: 5px;
+    }
+
+    .infobox-value {
+      width: 240px;
+      height: 27px;
+    }
+    </style>
+  </head>
+  <body>
+    <header><h2>Leaflet Acceptance Sandbox</h2></header>
+    <div class="container">
+      <div id="map"></div>
+      <div class="button-group-container">
+        <div class="button-group">
+          <button id="panMap">Pan Map</button>
+          <div class="button-status button-not-engaged" id="panMapStatus"></div>
+        </div>
+        <div class="button-group">
+          <button id="zoomMap">Zoom Map</button>
+          <div
+            class="button-status button-not-engaged"
+            id="zoomMapStatus"
+          ></div>
+        </div>
+        <div class="button-group">
+          <button id="addCycleLayer">Add Open Cycle Map Layer</button>
+          <div
+            class="button-status button-not-engaged"
+            id="addCycleLayerStatus"
+          ></div>
+        </div>
+        <div class="button-group">
+          <button id="addMarker">Add Marker Layer</button>
+          <div
+            class="button-status button-not-engaged"
+            id="addMarkerStatus"
+          ></div>
+        </div>
+
+        <h2>Values for Integration Tests</h2>
+        <div class="button-group">
+          <div class="infobox-label">Map Centre</div>
+          <input class="infobox-value" id="mapCenter" />
+        </div>
+        <div class="button-group">
+          <div class="infobox-label">Zoom Level</div>
+          <input class="infobox-value" id="zoomLevel" />
+        </div>
+        <div class="button-group">
+          <div class="infobox-label">Bounding Box</div>
+          <input class="infobox-value" id="mapBounds" />
+        </div>
+        <div class="button-group">
+          <div class="infobox-label">Marker Location</div>
+          <input class="infobox-value" id="markerLocation" />
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAFLET LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0/leaflet.js"></script>
+    <script src="./index.js"></script>
+    <!-- MAP CODE -->
+  </body>
+</html>
