@@ -4,7 +4,7 @@
   "description": "Get started with Testcafe!",
   "main": "index.js",
   "scripts": {
-    "test": "testcafe chrome ./tests/** --app \"http-server . -p 3001 -s\"",
+    "test": "testcafe chrome:headless ./tests/** --app \"http-server . -p 3001 -s\"",
     "sandbox": "http-server ./sandbox -p 3001"
   },
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
