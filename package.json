@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Brian Bancroft <hello@brianbancroft.ca>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "testcafe": "^1.0.1"
+  }
 }
