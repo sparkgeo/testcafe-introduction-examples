@@ -19,6 +19,10 @@ Testcafe is a fully-integrated E2E testing library written for NodeJS (Node). It
 
 There are many extensions available for this testing suite including for browserstack, and it also offers a UI-based testing tool for automated E2E tests at cost. Because it operates as a standalone E2E entity, it doesn't need to integrate with modern Javascript frameworks to test many things. But for special cases, there is a rich plugin ecosystem that allows users to integrate if this is something that's really needed. 
 
+Simply-put, where all the other testing suites require too many steps, Testcafe is easy. Download the library, set up the tests, run. You don't have to assemble the vacuum. You just have to decide what you're going to vacuum, how to turn it on, then point!
+
+![lazy-corgi](https://user-images.githubusercontent.com/6225122/53447771-e55dcd00-39e3-11e9-9bee-897326fa1502.gif)
+
 ## Building E2E Tests
 
 **If you are stuck, [this link](https://github.com/sparkgeo/testcafe-introduction-examples/branches) contains stepped solutions for each of the sections of this tutorial**. 
@@ -461,3 +465,5 @@ test.requestHooks(cycleMapLogger)('Test outgoing opencycle requests on layer loa
 ```
 
 With this, if you're able to get 5/5 tests working, then you've succeeded in building an End-to-End testing environment for a client library using a custom sandbox. This is one of the tools which we use to ensure that we're tracking your web map use, and that we don't degrade existing features accidently when we improve and iterate. Congratulations!
+
+![happycorgi](https://user-images.githubusercontent.com/6225122/53447725-d1b26680-39e3-11e9-8407-f037f7c72134.gif)
